@@ -1,0 +1,37 @@
+{1:F01${m_senderAddress}0000000000}{2:I540${m_recipientAddress}N}{3:{108:$m_tradeReference}}{4:
+:16R:GENL
+:20C::SEME//$m_tradeReference
+:23G:$m_messageFunction
+#parse( "META-INF/is-templates/include/cancelLink.vm" )
+:16S:GENL
+:16R:TRADDET
+:98A::SETT//$m_settlementDate
+:98A::TRAD//$m_tradeDate
+:35B:$m_instrumentIsin
+:16S:TRADDET
+:16R:FIAC
+:36B::SETT//UNIT/$m_instrumentQuantity
+:97A::SAFE//$m_ourSafekeepingAccount
+:16S:FIAC
+:16R:SETDET
+:22F::SETR//TRAD
+:16R:SETPRTY
+#if ($m_deliveringAgentAccount != "")
+:95R::DEAG/MOTI/$m_deliveringAgentAccount
+#else
+:95P::DEAG//$m_deliveringCounterpartyBIC
+#end
+:16S:SETPRTY
+:16R:SETPRTY
+:95P::SELL//$m_delivererCustodianCode
+#if ($m_delivererCustodianSafekeepingAccount != "")
+:97A::SAFE//$m_delivererCustodianSafekeepingAccount
+#elseif ($m_sellerName != "")
+:97A::SAFE//$m_sellerName
+#end
+:16S:SETPRTY
+:16R:SETPRTY
+:95P::PSET//$m_placeOfSettlement
+:16S:SETPRTY
+:16S:SETDET
+-}
